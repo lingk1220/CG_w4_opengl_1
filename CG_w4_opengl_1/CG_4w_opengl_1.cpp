@@ -84,9 +84,17 @@ GLvoid Keyboard(unsigned char key, int x, int y)
 		change_color_screen(tmprgba);
 		break;
 
+	case 'w':
+		change_color_screen(white);
+		break;
+
+	case 'k':
+		change_color_screen(black);
+		break;
 	}
 	glutPostRedisplay(); 
 }
+
 
 void change_color_screen(const GLclampf *color) {
 	for (int i = 0; i < 4; i++) {
