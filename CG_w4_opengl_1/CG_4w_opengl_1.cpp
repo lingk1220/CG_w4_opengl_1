@@ -17,9 +17,13 @@ GLclampf tmprgba[4] = { 0, };
 GLvoid drawScene(GLvoid);
 GLvoid Reshape(int w, int h);
 GLvoid Keyboard(unsigned char key, int x, int y);
+
+unsigned char cur_key = 0;
+
 void change_color_screen(const GLclampf* color);
 void random_color();
 void main_init();
+void timer_random_screen(int value);
 
 void main(int argc, char** argv)
 {
@@ -66,6 +70,7 @@ GLvoid Reshape(int w, int h)
 
 GLvoid Keyboard(unsigned char key, int x, int y)
 {
+	cur_key = key;
 	switch (key) {
 	case 'c':
 		change_color_screen(cyan);
@@ -91,10 +96,20 @@ GLvoid Keyboard(unsigned char key, int x, int y)
 	case 'k':
 		change_color_screen(black);
 		break;
+
+	case 't':
+		glutTimerFunc(100, timer_random_screen, 1);
+		break;
 	}
 	glutPostRedisplay(); 
 }
 
+void timer_random_screen(int value) {
+	random_color();
+	change_color_screen(tmprgba);
+	glutPostRedisplay();
+	if(cur_key != 's') glutTimerFunc(100, timer_random_screen, 1);
+}
 
 void change_color_screen(const GLclampf *color) {
 	for (int i = 0; i < 4; i++) {
