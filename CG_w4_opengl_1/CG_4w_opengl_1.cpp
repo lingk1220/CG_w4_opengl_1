@@ -19,17 +19,18 @@ GLvoid Reshape(int w, int h);
 GLvoid Keyboard(unsigned char key, int x, int y);
 void change_color_screen(const GLclampf* color);
 void random_color();
-
+void main_init();
 
 void main(int argc, char** argv)
 {
 	srand((unsigned int)time(NULL));
 	GLrgbacf.assign(4, NULL);
+	main_init();
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(250, 250);
+	glutInitWindowSize(800, 600);
 	glutCreateWindow("Example1");
 
 	glewExperimental = GL_TRUE;
@@ -44,6 +45,10 @@ void main(int argc, char** argv)
 	glutReshapeFunc(Reshape);
 	glutKeyboardFunc(Keyboard);
 	glutMainLoop();
+}
+
+void main_init() {
+	change_color_screen(white);
 }
 
 GLvoid drawScene() 
@@ -74,6 +79,10 @@ GLvoid Keyboard(unsigned char key, int x, int y)
 		change_color_screen(yellow);
 		break;
 
+	case 'a':
+		random_color();
+		change_color_screen(tmprgba);
+		break;
 
 	}
 	glutPostRedisplay(); 
@@ -82,5 +91,11 @@ GLvoid Keyboard(unsigned char key, int x, int y)
 void change_color_screen(const GLclampf *color) {
 	for (int i = 0; i < 4; i++) {
 		GLrgbacf[i] = color[i];
+	}
+}
+
+void random_color() {
+	for (int i = 0; i < 4; i++) {
+		tmprgba[i] = float(rand() % 256) / (float)256;
 	}
 }
