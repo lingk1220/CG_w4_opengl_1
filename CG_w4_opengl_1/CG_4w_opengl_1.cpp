@@ -100,6 +100,10 @@ GLvoid Keyboard(unsigned char key, int x, int y)
 	case 't':
 		glutTimerFunc(100, timer_random_screen, 1);
 		break;
+
+	case 'q':
+		glutLeaveMainLoop();
+		break;
 	}
 	glutPostRedisplay(); 
 }
