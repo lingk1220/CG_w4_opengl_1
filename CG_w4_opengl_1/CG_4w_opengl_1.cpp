@@ -3,14 +3,27 @@
 #include <gl/freeglut.h>
 #include <gl/freeglut_ext.h>
 #include <vector>
-GLvoid drawScene(GLvoid);
-GLvoid Reshape(int w, int h);
-GLvoid Keyboard(unsigned char key, int x, int y);
+#include <math.h>
 
 std::vector<GLclampf> GLrgbacf;
 
+GLclampf cyan[4] = { 0.0f, 1.0f, 1.0f, 0.0f };
+GLclampf magenta[4] = { 1.0f, 0.0f, 1.0f, 0.0f };
+GLclampf yellow[4] = { 1.0f, 1.0f, 0.0f, 0.0f };
+GLclampf white[4] = { 1.0f, 1.0f, 1.0f, 0.0f };
+GLclampf black[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+GLclampf tmprgba[4] = { 0, };
+
+GLvoid drawScene(GLvoid);
+GLvoid Reshape(int w, int h);
+GLvoid Keyboard(unsigned char key, int x, int y);
+void change_color_screen(const GLclampf* color);
+void random_color();
+
+
 void main(int argc, char** argv)
 {
+	srand((unsigned int)time(NULL));
 	GLrgbacf.assign(4, NULL);
 
 	glutInit(&argc, argv);
@@ -50,11 +63,24 @@ GLvoid Keyboard(unsigned char key, int x, int y)
 {
 	switch (key) {
 	case 'c':
-		GLrgbacf[0] = 0.0f;
-		GLrgbacf[1] = 1.0f;
-		GLrgbacf[2] = 1.0f;
-		GLrgbacf[3] = 0.0f;
+		change_color_screen(cyan);
 		break;
+
+	case 'm':
+		change_color_screen(magenta);
+		break;
+
+	case 'y':
+		change_color_screen(yellow);
+		break;
+
+
 	}
 	glutPostRedisplay(); 
+}
+
+void change_color_screen(const GLclampf *color) {
+	for (int i = 0; i < 4; i++) {
+		GLrgbacf[i] = color[i];
+	}
 }
